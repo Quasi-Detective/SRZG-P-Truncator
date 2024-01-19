@@ -15,7 +15,7 @@ for fileO in os.listdir('.'):
 			headerB = binascii.hexlify(f.readline(4))
 			if str(headerB.decode('utf8')) == '4f4f4348' and not fileO.endswith(".new"):
 				print("OOCH header found! Proceeding.")
-				#Do the thing.
+				#Do the thing. This could almost certainly be streamlined...
 				newFile = open(fileO + ".new1", "wb")
 				f.seek(0)
 				newFile.write(f.read(16))
@@ -23,7 +23,6 @@ for fileO in os.listdir('.'):
 				newFile.write(f.read(os.path.getsize(fileO)))
 				f.close()
 				newFile.close()
-				#os.rename(fileO + ".new1", fileO)
 				newFileB = open(fileO + ".new1", "rb")
 				newFile2 = open(fileO + ".new2", "wb")
 				newFileB.seek(0)
@@ -43,29 +42,11 @@ for fileO in os.listdir('.'):
 				os.remove(fileO + ".new2")
 				os.remove(fileO)
 				os.rename(fileO + ".new3", fileO)
-				
+
 			else:
 				print("Header '%s' is incorrect. Skipping." % str(headerB.decode('utf8')))
 				#Don't do the thing.
 				f.close()
-
-            #f.seek(-8, os.SEEK_END)
-            #bytr = binascii.hexlify(f.readline(8))
-            #print("File position: %s" % str(f.tell()))
-            #print("Last 8 bytes of file: %s" % str(bytr))
-#
-            #if bytr == '0000000000000000':
-                #print("BNSF file is too long!")
-                #sizeb = os.path.getsize(fileO)
-                #print("Full size of file in bytes: %s" % str(sizeb))
-                #sizeE = sizeb - 8
-                #print("Size of file - 8 bytes: %s" % str(sizeE))
-                #f.truncate(sizeE)
-                #print("BNSF file truncated to proper length.\n")
-            #else:
-                #print("BNSF file should work!\n")
-#
-            #f.close()
 
 try:            
     done = input("Truncation complete. Press any key to exit.")
